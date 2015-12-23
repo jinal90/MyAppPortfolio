@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_dark_trans"
+    tools:context="com.tcs.nanodegree.myappportfolio.fragment.MoviesFragment">
+
+    <include
+        layout="@layout/progress_dialog_layout"
+        >
+    </include>
+    <include
+        layout="@layout/error_layout"
+        >
+    </include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_movies"
+            tools:listItem="@layout/movie_item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ProgressBar
+            android:id="@+id/smallLoading"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:theme="@style/materialLoading"
+            android:background="@android:color/transparent" />
+    </RelativeLayout>
+
+
+</FrameLayout>

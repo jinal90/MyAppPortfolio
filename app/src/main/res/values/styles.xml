@@ -1,0 +1,111 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Main theme colors -->
+        <!--   your app branding color for the app bar -->
+        <item name="colorPrimary">@color/primary</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/accent</item>
+
+
+    </style>
+
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <!-- Custom Button style -->
+    <style name="MyButtonStyle" parent="android:Widget.Button">
+        <item name="android:background">@color/view_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/button_textsize</item>
+        <item name="android:padding">@dimen/button_padding</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin_bottom</item>
+        <item name="android:layout_marginRight">@dimen/button_margin_right</item>
+        <item name="android:layout_marginLeft">@dimen/button_margin_left</item>
+    </style>
+
+    <!-- Custom Hilighted Button style -->
+    <style name="MyHighlightedButtonStyle" parent="android:Widget.Button">
+        <item name="android:background">@color/highlighted_view_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/button_textsize</item>
+        <item name="android:padding">@dimen/button_padding</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginTop">@dimen/button_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/button_margin_bottom</item>
+        <item name="android:layout_marginRight">@dimen/button_margin_right</item>
+        <item name="android:layout_marginLeft">@dimen/button_margin_left</item>
+    </style>
+
+    <!-- Custom Textview Title style -->
+    <style name="MyTextTiteStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/title_text</item>
+        <item name="android:textSize">@dimen/textview_title_textsize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/textview_padding</item>
+    </style>
+
+    <!-- Custom Textview Error style -->
+    <style name="MyTextErrorStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:textSize">@dimen/textview_value_textsize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/textview_padding</item>
+    </style>
+
+    <!-- Custom Textview on splash screen style -->
+    <style name="MyTextSplashStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/textview_splash_textsize</item>
+        <item name="android:padding">@dimen/textview_padding</item>
+    </style>
+
+    <!-- Custom Textview normal style -->
+    <style name="MyTextViewTransStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/textview_normal_textsize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingLeft">@dimen/textview_padding</item>
+        <item name="android:paddingTop">@dimen/textview_paddingtopbottom</item>
+        <item name="android:paddingBottom">@dimen/textview_paddingtopbottom</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Custom Textview lable style -->
+    <style name="MyTextLableStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:textSize">@dimen/textview_lable_textsize</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">@dimen/activity_horizontal_margin</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+    </style>
+
+    <!-- Custom Textview value style -->
+    <style name="MyTextValueStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/textview_value_textsize</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">@dimen/activity_horizontal_margin</item>
+        <item name="android:lineSpacingExtra">8dp</item>
+    </style>
+
+    <!-- Custom Loading -->
+    <style name="materialLoading" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:colorForeground">@color/accent</item>
+    </style>
+
+</resources>

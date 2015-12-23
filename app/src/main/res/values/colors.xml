@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme Colors -->
+    <color name="primary">#00BCD4</color>
+    <color name="primary_dark">#006064</color>
+    <color name="accent">#FFC107</color>
+
+    <!-- App Custom Color Palette -->
+    <color name="view_background">#0097A7</color>
+    <color name="title_text">#FF6F00</color>
+    <color name="highlighted_view_background">#F50057</color>
+    <color name="primary_dark_trans">#20006064</color>
+
+</resources>

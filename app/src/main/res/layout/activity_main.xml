@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_dark_trans"
+    tools:context=".MainActivity">
+
+    <include
+        layout="@layout/toolbar"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/MyTextTiteStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:text="@string/my_nanodegree_app" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tvTitle"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnPopularMovies1"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:onClick="onClick"
+                android:text="@string/popular_moview_1" />
+
+            <Button
+                android:id="@+id/btnSpotifyApp"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPopularMovies1"
+                android:onClick="onClick"
+                android:text="@string/spotify_streamer" />
+
+            <Button
+                android:id="@+id/btnScoresApp"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnSpotifyApp"
+                android:onClick="onClick"
+                android:text="@string/scores_app" />
+
+            <Button
+                android:id="@+id/btnLibraryApp"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnScoresApp"
+                android:onClick="onClick"
+                android:text="@string/library_app" />
+
+            <Button
+                android:id="@+id/btnBuiltItBigger"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnLibraryApp"
+                android:onClick="onClick"
+                android:text="@string/build_it_bigger" />
+
+            <Button
+                android:id="@+id/btnXYZReader"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnBuiltItBigger"
+                android:onClick="onClick"
+                android:text="@string/xyz_reader" />
+
+            <Button
+                android:id="@+id/btnCapstoneMyApp"
+                style="@style/MyHighlightedButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnXYZReader"
+                android:onClick="onClick"
+                android:text="@string/capstone_my_app" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

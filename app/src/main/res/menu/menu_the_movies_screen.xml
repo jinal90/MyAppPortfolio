@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.tcs.nanodegree.myappportfolio.activity.TheMoviesScreen">
+    <item
+        android:id="@+id/action_popular_sort"
+        android:orderInCategory="100"
+        android:title="@string/sort_popular"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_rating_sort"
+        android:orderInCategory="100"
+        android:title="@string/sort_highest_rated"
+        app:showAsAction="never" />
+</menu>
