@@ -118,8 +118,8 @@ public class Movie implements Parcelable {
     protected Movie(Parcel in){
         this.page = in.readLong();
         this.results = in.readArrayList(Result.class.getClassLoader());
-        this.totalResults = in.readLong();
-        this.totalPages = in.readLong();
+//        this.totalResults = in.readLong();
+//        this.totalPages = in.readLong();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class Movie implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.page);
         dest.writeTypedList(this.results);
-        dest.writeLong(this.totalResults);
-        dest.writeLong(this.totalPages);
+//        dest.writeLong(this.totalResults);
+//        dest.writeLong(this.totalPages);
     }
 }

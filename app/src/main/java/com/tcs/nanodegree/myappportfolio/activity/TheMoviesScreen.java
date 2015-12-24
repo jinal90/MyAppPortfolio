@@ -16,7 +16,7 @@ import com.tcs.nanodegree.myappportfolio.fragment.MoviesFragment;
 public class TheMoviesScreen extends AppCompatActivity {
 
     private MoviesFragment movieFrag;
-    private int currentSelectedSort = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +28,23 @@ public class TheMoviesScreen extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_the_movies_screen);
-        setupUI();
+        setupUI(savedInstanceState);
     }
 
-    private void setupUI() {
+    private void setupUI(Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        movieFrag = MoviesFragment.newInstance();
         FragmentManager fragMngr = getSupportFragmentManager();
-        fragMngr.beginTransaction().add(R.id.movieContainer, movieFrag).commit();
-
+        /*movieFrag = MoviesFragment.newInstance();
+        fragMngr.beginTransaction().add(R.id.movieContainer, movieFrag).commit();*/
+        if (savedInstanceState == null) {
+            movieFrag = MoviesFragment.newInstance();
+            fragMngr.beginTransaction().add(R.id.movieContainer, movieFrag).commit();
+        } else {
+            movieFrag = (MoviesFragment) fragMngr.findFragmentById(R.id.movieContainer);
+        }
     }
 
     @Override
@@ -54,32 +59,9 @@ public class TheMoviesScreen extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_popular_sort) {
-            if (currentSelectedSort != 0) {
-                movieFrag.setPageCount(1);
-                movieFrag.fetchMovies(0);
-                currentSelectedSort = 0;
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.popular_already_sorted),
-                        Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        } else if (id == R.id.action_rating_sort) {
-            if (currentSelectedSort != 1) {
-                movieFrag.setPageCount(1);
-                movieFrag.fetchMovies(1);
-                currentSelectedSort = 1;
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.highest_rating_already_sorted),
-                        Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        } else{
-            finish();
-        }
 
         return super.onOptionsItemSelected(item);
     }

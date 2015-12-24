@@ -1,16 +1,16 @@
 package com.tcs.nanodegree.myappportfolio.fragment;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tcs.nanodegree.myappportfolio.activity.R;
 import com.tcs.nanodegree.myappportfolio.adapter.GridAdapter;
@@ -40,6 +40,7 @@ public class MoviesFragment extends Fragment {
     private Integer pageCount = 1;
     private Movie movie;
     private TextView errorText;
+    private int currentSelectedSort = 0;
 
     public void setPageCount(Integer p) {
         this.pageCount = p;
@@ -56,7 +57,7 @@ public class MoviesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -66,9 +67,67 @@ public class MoviesFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_movies, container, false);
 
         setUI(view);
-        fetchMovies(3);
+
+        if(savedInstanceState !=null)
+        {
+            currentSelectedSort = savedInstanceState.getInt(getResources().getString(R.string.current_sort_option));
+            movie = (Movie) savedInstanceState.get(getResources().getString(R.string.saved_movie_object));
+            pageCount = savedInstanceState.getInt(getResources().getString(R.string.saved_page_count));
+        }
+
+        if(movie!= null && movie.getResults() != null && movie.getResults().size() >0)
+        {
+            mAdapter = new GridAdapter(getActivity(), movie.getResults());
+            mRecyclerView.setAdapter(mAdapter);
+            loading = true;
+            progDialog.setVisibility(View.GONE);
+            smallLoading.setVisibility(View.GONE);
+            errorText.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }else{
+            fetchMovies(currentSelectedSort);
+        }
 
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_popular_sort) {
+            if (currentSelectedSort != 0) {
+                setPageCount(1);
+                fetchMovies(0);
+                currentSelectedSort = 0;
+            } else {
+                Toast.makeText(getActivity(), getResources().getString(R.string.popular_already_sorted),
+                        Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        } else if (id == R.id.action_rating_sort) {
+            if (currentSelectedSort != 1) {
+                setPageCount(1);
+                fetchMovies(1);
+                currentSelectedSort = 1;
+            } else {
+                Toast.makeText(getActivity(), getResources().getString(R.string.highest_rating_already_sorted),
+                        Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        } else{
+            getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(getResources().getString(R.string.current_sort_option), currentSelectedSort);
+        outState.putParcelable(getResources().getString(R.string.saved_movie_object), movie);
+        outState.putInt(getResources().getString(R.string.saved_page_count), pageCount);
     }
 
     private void setUI(View view) {

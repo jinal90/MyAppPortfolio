@@ -7,5 +7,8 @@
     <string name="sort_by_popularity">popularity.desc</string>
     <string name="sort_by_rating">vote_average.desc</string>
     <string name="movie_poster_transition">moviePosterTransition</string>
+    <string name="current_sort_option">CurrentSortingOption</string>
+    <string name="saved_movie_object">SavedMovieObject</string>
+    <string name="saved_page_count">SavedPageCount</string>
 
 </resources>
