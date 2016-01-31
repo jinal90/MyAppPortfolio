@@ -1,6 +1,7 @@
 package com.tcs.nanodegree.myappportfolio.intefaces;
 
 import com.tcs.nanodegree.myappportfolio.bean.Movie;
+import com.tcs.nanodegree.myappportfolio.bean.Review;
 import com.tcs.nanodegree.myappportfolio.bean.Trailer;
 
 import retrofit.Callback;
@@ -21,6 +22,12 @@ public interface IApiMethods {
     void getMovieTrailer(
             @Query("api_key") String key,
             Callback<Trailer> cb
+    );
+
+    @GET("/reviews")
+    void getMovieReview(
+            @Query("api_key") String key,
+            Callback<Review> cb
     );
 
 }

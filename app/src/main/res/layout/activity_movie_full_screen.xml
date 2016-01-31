@@ -112,19 +112,37 @@
             </RelativeLayout>
 
             <TextView
+                style="@style/MyTextLableStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_overview" />
+
+            <TextView
                 android:id="@+id/txtOverview"
                 style="@style/MyTextValueStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:lineSpacingExtra="8dp"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:textSize="20sp" />
+                android:maxLines="5"
+                android:padding="@dimen/activity_horizontal_margin" />
 
             <TextView
                 style="@style/MyTextLableStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/trailer_title" />
+                android:text="@string/title_review" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_review"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listItem="@layout/review_item_layout"></android.support.v7.widget.RecyclerView>
+
+            <TextView
+                style="@style/MyTextLableStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_trailer" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_trailers"

@@ -16,8 +16,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.tcs.nanodegree.myappportfolio.adapter.ReviewAdapter;
 import com.tcs.nanodegree.myappportfolio.adapter.TrailerAdapter;
 import com.tcs.nanodegree.myappportfolio.bean.Result;
+import com.tcs.nanodegree.myappportfolio.bean.Review;
 import com.tcs.nanodegree.myappportfolio.bean.Trailer;
 import com.tcs.nanodegree.myappportfolio.intefaces.IApiMethods;
 import com.tcs.nanodegree.myappportfolio.util.WrappingLinearLayoutManager;
@@ -37,8 +39,10 @@ public class MovieFullScreenActivity extends AppCompatActivity {
     private TextView tvOverview, tvReleaseDate, tvLanguage;
     private RatingBar movieRating;
     private Trailer movieTrailerObj;
-    private RecyclerView mRecyclerView;
-    private TrailerAdapter mAdapter;
+    private Review movieReviewObj;
+    private RecyclerView trailerRecyclerView, reviewRecyclerView;
+    private TrailerAdapter trailerAdapter;
+    private ReviewAdapter reviewAdapter;
 
 
     @Override
@@ -88,13 +92,20 @@ public class MovieFullScreenActivity extends AppCompatActivity {
 
         tvLanguage.setText(current.getDisplayLanguage());
 
-        WrappingLinearLayoutManager layoutManager = new WrappingLinearLayoutManager(this);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers);
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setHasFixedSize(false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        fetchMovieTrailer();
+        WrappingLinearLayoutManager trailerLayoutManager = new WrappingLinearLayoutManager(this);
+        trailerRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailers);
+        trailerRecyclerView.setNestedScrollingEnabled(false);
+        trailerRecyclerView.setHasFixedSize(false);
+        trailerRecyclerView.setLayoutManager(trailerLayoutManager);
 
+        WrappingLinearLayoutManager reviewLayoutManager = new WrappingLinearLayoutManager(this);
+        reviewRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_review);
+        reviewRecyclerView.setNestedScrollingEnabled(false);
+        reviewRecyclerView.setHasFixedSize(false);
+        reviewRecyclerView.setLayoutManager(reviewLayoutManager);
+
+        fetchMovieTrailer();
+        fetchMovieReview();
     }
 
     public void onClick(View view) {
@@ -104,6 +115,41 @@ public class MovieFullScreenActivity extends AppCompatActivity {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                 break;
             default:
+        }
+    }
+
+    public void fetchMovieReview() {
+        final IApiMethods methods;
+
+        try {
+
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint(getResources().getString(R.string.TMDB_base_url)
+                            + "/movie/" + movieObj.getId())
+                    .build();
+
+            methods = restAdapter.create(IApiMethods.class);
+
+            Callback callback = new Callback() {
+                @Override
+                public void success(Object o, Response response) {
+
+                    movieReviewObj = (Review) o;
+                    reviewAdapter = new ReviewAdapter(MovieFullScreenActivity.this, movieReviewObj.getResults(), movieObj.getTitle());
+                    reviewRecyclerView.setAdapter(reviewAdapter);
+                    reviewRecyclerView.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void failure(RetrofitError retrofitError) {
+                    reviewRecyclerView.setVisibility(View.GONE);
+                }
+            };
+
+            methods.getMovieReview(getResources().getString(R.string.TMDB_ApiKey),
+                    callback);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -124,15 +170,15 @@ public class MovieFullScreenActivity extends AppCompatActivity {
                 public void success(Object o, Response response) {
 
                     movieTrailerObj = (Trailer) o;
-                    mAdapter = new TrailerAdapter(MovieFullScreenActivity.this, movieTrailerObj.getResults());
-                    mRecyclerView.setAdapter(mAdapter);
-                    mAdapter.notifyDataSetChanged();
+                    trailerAdapter = new TrailerAdapter(MovieFullScreenActivity.this, movieTrailerObj.getResults());
+                    trailerRecyclerView.setAdapter(trailerAdapter);
+                    trailerRecyclerView.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
 
-                    System.out.println("error --- 1");
+                    trailerRecyclerView.setVisibility(View.GONE);
 
 
                 }

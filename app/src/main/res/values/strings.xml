@@ -29,9 +29,11 @@
     <string name="highest_rating_already_sorted">Already sorted by highest rating.</string>
     <string name="movie_poster_content_desc">Movie Poster</string>
     <string name="error_message">Some Error Occurred</string>
-
-    <string name="trailer_title">Trailers:</string>
+    <string name="title_overview">Overview:</string>
+    <string name="title_review">Review:</string>
+    <string name="title_trailer">Trailers:</string>
     <string name="trailer_item">Trailer</string>
+    <string name="title_activity_review">ReviewActivity</string>
 
 
 </resources>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginTop="5dp"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     android:padding="@dimen/activity_horizontal_margin"
     card_view:cardCornerRadius="5dp"
     card_view:cardElevation="1dp"
@@ -15,22 +14,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ivPlayTrailer"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txtReviewAuthor"
+            style="@style/MyTextValueStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:onClick="onClick"
-            android:src="@drawable/play_icon" />
+            android:lineSpacingExtra="8dp"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvTrailerTitle"
+            android:id="@+id/txtReviewContent"
             style="@style/MyTextValueStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ivPlayTrailer"
-            android:text="@string/trailer_item" />
+            android:layout_below="@+id/txtReviewAuthor"
+            android:ellipsize="end"
+            android:lineSpacingExtra="8dp"
+            android:maxLines="5"
+            android:padding="@dimen/activity_horizontal_margin" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
+
+
