@@ -36,11 +36,20 @@
                 android:text="@string/popular_moview_1" />
 
             <Button
-                android:id="@+id/btnSpotifyApp"
+                android:id="@+id/btnPopularMovies2"
                 style="@style/MyButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnPopularMovies1"
+                android:onClick="onClick"
+                android:text="@string/popular_moview_1" />
+
+            <Button
+                android:id="@+id/btnSpotifyApp"
+                style="@style/MyButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPopularMovies2"
                 android:onClick="onClick"
                 android:text="@string/spotify_streamer" />
 
