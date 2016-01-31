@@ -3,8 +3,7 @@
     <string name="TMDB_base_url">http://api.themoviedb.org/3</string>
     <string name="TMDB_image_url">http://image.tmdb.org/t/p/w342</string>
     <!-- kindly refer README for api key -->
-    <string name="TMDB_ApiKey">f05ba110dfeb0aa58bd21aa6fb39ebb4</string>
-    <!--<string name="TMDB_ApiKey">[YOUR API KEY]</string>-->
+    <string name="TMDB_ApiKey">[YOUR API KEY]</string>
     <string name="sort_by_popularity">popularity.desc</string>
     <string name="sort_by_rating">vote_average.desc</string>
     <string name="movie_poster_transition">moviePosterTransition</string>
