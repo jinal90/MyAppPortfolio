@@ -8,7 +8,7 @@
         layout="@layout/toolbar"
         ></include>
     <RelativeLayout
-        android:id="@+id/movieContainer"
+        android:id="@+id/movieContainerLeft"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

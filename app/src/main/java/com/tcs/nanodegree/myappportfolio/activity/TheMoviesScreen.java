@@ -11,12 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.tcs.nanodegree.myappportfolio.bean.Result;
+import com.tcs.nanodegree.myappportfolio.fragment.MovieDetailsFragment;
 import com.tcs.nanodegree.myappportfolio.fragment.MoviesFragment;
 
-public class TheMoviesScreen extends AppCompatActivity {
+public class TheMoviesScreen extends AppCompatActivity{
 
     private MoviesFragment movieFrag;
-
+    FragmentManager fragMngr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +38,20 @@ public class TheMoviesScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        FragmentManager fragMngr = getSupportFragmentManager();
+        fragMngr = getSupportFragmentManager();
         /*movieFrag = MoviesFragment.newInstance();
         fragMngr.beginTransaction().add(R.id.movieContainer, movieFrag).commit();*/
         if (savedInstanceState == null) {
             movieFrag = MoviesFragment.newInstance();
-            fragMngr.beginTransaction().add(R.id.movieContainer, movieFrag).commit();
-        } else {
+            fragMngr.beginTransaction().add(R.id.movieContainerLeft, movieFrag).commit();
+
+            /*if("true".equalsIgnoreCase(getString(R.string.is_tablet)))
+            {
+                switchContent(movieFrag.getMovie().getResults().get(0));
+            }*/
+        } /*else {
             movieFrag = (MoviesFragment) fragMngr.findFragmentById(R.id.movieContainer);
-        }
+        }*/
     }
 
     @Override
@@ -65,4 +72,25 @@ public class TheMoviesScreen extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void switchContent(Result obj ){
+
+        if("true".equalsIgnoreCase(getString(R.string.is_tablet)))
+        {
+            MovieDetailsFragment frag = MovieDetailsFragment.newInstance(obj);
+            fragMngr.beginTransaction().replace(R.id.movieContainerRight, frag, frag.toString())
+                    .addToBackStack(null)
+                    .commit();
+
+        }else{
+            MovieDetailsFragment frag = MovieDetailsFragment.newInstance(obj);
+            fragMngr.beginTransaction().replace(R.id.movieContainerLeft, frag, frag.toString())
+                    .addToBackStack(null)
+                    .commit();
+
+        }
+
+
+    }
+
 }

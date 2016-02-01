@@ -15,6 +15,6 @@
     <string name="saved_result_object">SavedResultObject</string>
     <string name="saved_review_object">SavedReviewObject</string>
     <string name="saved_trailer_object">SavedTrailerObject</string>
-    <string name="is_tablet">false</string>
+    <string name="is_tablet">true</string>
 
 </resources>

@@ -1,12 +1,34 @@
 
 package com.tcs.nanodegree.myappportfolio.bean;
 
-public class ReviewResult {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ReviewResult implements Parcelable{
 
     private String id;
     private String author;
     private String content;
     private String url;
+
+    protected ReviewResult(Parcel in) {
+        id = in.readString();
+        author = in.readString();
+        content = in.readString();
+        url = in.readString();
+    }
+
+    public static final Creator<ReviewResult> CREATOR = new Creator<ReviewResult>() {
+        @Override
+        public ReviewResult createFromParcel(Parcel in) {
+            return new ReviewResult(in);
+        }
+
+        @Override
+        public ReviewResult[] newArray(int size) {
+            return new ReviewResult[size];
+        }
+    };
 
     /**
      * 
@@ -80,4 +102,16 @@ public class ReviewResult {
         this.url = url;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(author);
+        dest.writeString(content);
+        dest.writeString(url);
+    }
 }

@@ -1,7 +1,10 @@
 
 package com.tcs.nanodegree.myappportfolio.bean;
 
-public class TrailerResult {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class TrailerResult implements Parcelable{
 
     private String id;
     private String iso_639_1;
@@ -10,6 +13,27 @@ public class TrailerResult {
     private String site;
     private Integer size;
     private String type;
+
+    protected TrailerResult(Parcel in) {
+        id = in.readString();
+        iso_639_1 = in.readString();
+        key = in.readString();
+        name = in.readString();
+        site = in.readString();
+        type = in.readString();
+    }
+
+    public static final Creator<TrailerResult> CREATOR = new Creator<TrailerResult>() {
+        @Override
+        public TrailerResult createFromParcel(Parcel in) {
+            return new TrailerResult(in);
+        }
+
+        @Override
+        public TrailerResult[] newArray(int size) {
+            return new TrailerResult[size];
+        }
+    };
 
     /**
      * 
@@ -137,4 +161,18 @@ public class TrailerResult {
         this.type = type;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(iso_639_1);
+        dest.writeString(key);
+        dest.writeString(name);
+        dest.writeString(site);
+        dest.writeString(type);
+    }
 }

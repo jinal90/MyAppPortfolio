@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -13,9 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.tcs.nanodegree.myappportfolio.activity.MainActivity;
 import com.tcs.nanodegree.myappportfolio.activity.MovieFullScreenActivity;
 import com.tcs.nanodegree.myappportfolio.activity.R;
+import com.tcs.nanodegree.myappportfolio.activity.TheMoviesScreen;
 import com.tcs.nanodegree.myappportfolio.bean.Result;
+import com.tcs.nanodegree.myappportfolio.fragment.MovieDetailsFragment;
 
 import java.util.List;
 
@@ -67,7 +72,9 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Intent detailIntent = new Intent(context, MovieFullScreenActivity.class);
+            fragmentJump(mItems.get(this.getAdapterPosition()));
+
+            /*Intent detailIntent = new Intent(context, MovieFullScreenActivity.class);
 
             detailIntent.putExtra(context.getResources().getString(R.string.movie_obj), mItems.get(this.getAdapterPosition()));
             if (Build.VERSION.SDK_INT >= 21) {
@@ -76,7 +83,15 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                 context.startActivity(detailIntent, options.toBundle());
             } else {
                 context.startActivity(detailIntent);
-            }
+            }*/
+        }
+    }
+
+    private void fragmentJump(Result mItemSelected) {
+
+        if (context!=null && context instanceof TheMoviesScreen) {
+            TheMoviesScreen mainActivity = (TheMoviesScreen) context;
+            mainActivity.switchContent(mItemSelected);
         }
     }
 }

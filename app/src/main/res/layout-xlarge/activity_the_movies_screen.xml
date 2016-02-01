@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="2"
+    tools:context="com.tcs.nanodegree.myappportfolio.activity.TheMoviesScreen">
+
+    <include
+
+        layout="@layout/toolbar"></include>
+
+    <RelativeLayout
+        android:id="@+id/movieContainerLeft"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_weight="1">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/movieContainerRight"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_weight="1">
+
+    </RelativeLayout>
+
+</LinearLayout>

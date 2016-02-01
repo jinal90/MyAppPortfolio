@@ -4,6 +4,7 @@ package com.tcs.nanodegree.myappportfolio.util;
  * Created by divtouch on 1/31/2016.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 
 public class WrappingLinearLayoutManager extends LinearLayoutManager {
 
-    public WrappingLinearLayoutManager(Context context) {
+    public WrappingLinearLayoutManager(Activity context) {
         super(context);
     }
 
