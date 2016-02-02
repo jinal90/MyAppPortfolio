@@ -1,5 +1,6 @@
 package com.tcs.nanodegree.myappportfolio.activity;
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -78,18 +79,32 @@ public class TheMoviesScreen extends AppCompatActivity{
         if("true".equalsIgnoreCase(getString(R.string.is_tablet)))
         {
             MovieDetailsFragment frag = MovieDetailsFragment.newInstance(obj);
-            fragMngr.beginTransaction().replace(R.id.movieContainerRight, frag, frag.toString())
-                    .addToBackStack(null)
+            fragMngr.beginTransaction()
+                    .replace(R.id.movieContainerRight, frag, frag.toString())
                     .commit();
-
         }else{
             MovieDetailsFragment frag = MovieDetailsFragment.newInstance(obj);
-            fragMngr.beginTransaction().replace(R.id.movieContainerLeft, frag, frag.toString())
+            fragMngr.beginTransaction()
+                    .replace(R.id.movieContainerLeft, frag, frag.toString())
                     .addToBackStack(null)
                     .commit();
 
         }
 
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        System.out.println("sdhfishfksdhfkjh");
+
+//        if("true".equalsIgnoreCase(getString(R.string.is_tablet))){
+//            mLayoutManager.setSpanCount(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 2);
+//        }else{
+//            mLayoutManager.setSpanCount(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 3);
+//        }
 
     }
 

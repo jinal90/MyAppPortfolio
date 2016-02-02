@@ -2,24 +2,22 @@ package com.tcs.nanodegree.myappportfolio.fragment;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.tcs.nanodegree.myappportfolio.activity.MovieFullScreenActivity;
 import com.tcs.nanodegree.myappportfolio.activity.R;
-import com.tcs.nanodegree.myappportfolio.adapter.GridAdapter;
 import com.tcs.nanodegree.myappportfolio.adapter.ReviewAdapter;
 import com.tcs.nanodegree.myappportfolio.adapter.TrailerAdapter;
-import com.tcs.nanodegree.myappportfolio.bean.Movie;
 import com.tcs.nanodegree.myappportfolio.bean.Result;
 import com.tcs.nanodegree.myappportfolio.bean.Review;
 import com.tcs.nanodegree.myappportfolio.bean.Trailer;
@@ -52,7 +50,6 @@ public class MovieDetailsFragment extends Fragment {
     private ReviewAdapter reviewAdapter;
 
 
-
     public static MovieDetailsFragment newInstance(Result resultObj) {
         MovieDetailsFragment fragment = new MovieDetailsFragment();
         Bundle args = new Bundle();
@@ -81,47 +78,43 @@ public class MovieDetailsFragment extends Fragment {
 
         setupUI(view);
 
-        if(savedInstanceState !=null)
-        {
+        if (savedInstanceState != null) {
             movieObj = (Result) savedInstanceState.get(getResources().getString(R.string.saved_result_object));
             movieReviewObj = (Review) savedInstanceState.get(getResources().getString(R.string.saved_review_object));
             movieTrailerObj = (Trailer) savedInstanceState.get(getResources().getString(R.string.saved_trailer_object));
         }
 
-        if(movieObj!= null)
-        {
+        if (movieObj != null) {
             fillData();
         }
 
-        if(movieTrailerObj!= null)
-        {
+        if (movieTrailerObj != null) {
             trailerAdapter = new TrailerAdapter(getActivity(), movieTrailerObj.getResults());
             trailerRecyclerView.setAdapter(trailerAdapter);
             trailerRecyclerView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             fetchMovieTrailer();
         }
 
-        if(movieReviewObj!= null)
-        {
+        if (movieReviewObj != null) {
             reviewAdapter = new ReviewAdapter(getActivity(), movieReviewObj.getResults(), movieObj.getTitle());
             reviewRecyclerView.setAdapter(reviewAdapter);
             reviewRecyclerView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
 
             fetchMovieReview();
 
         }
 
 
-        return  view;
+        return view;
     }
 
     private void setupUI(View view) {
 
         imgPoster = (ImageView) view.findViewById(R.id.img_movie_poster);
         Picasso.with(getActivity())
-                .load(getResources().getString(R.string.TMDB_image_url) + movieObj.getPosterPath())
+                .load(getResources().getString(R.string.TMDB_detail_image_url) + movieObj.getPosterPath())
                 .into(imgPoster);
 
         tvOverview = (TextView) view.findViewById(R.id.txtOverview);
@@ -144,9 +137,18 @@ public class MovieDetailsFragment extends Fragment {
         reviewRecyclerView.setHasFixedSize(false);
         reviewRecyclerView.setLayoutManager(reviewLayoutManager);
 
+        final FloatingActionButton fabFavorite = (FloatingActionButton)view.findViewById(R.id.fabFavorite);
+        fabFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red));
+                Toast.makeText(getActivity(), "blah blah", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
-    public void fillData(){
+    public void fillData() {
         float rating = (float) ((5 * movieObj.getVoteAverage()) / 10);
         movieRating.setRating(rating);
         tvReleaseDate.setText(movieObj.getReleaseDate());

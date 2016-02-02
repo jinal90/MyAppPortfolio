@@ -1,18 +1,24 @@
 package com.tcs.nanodegree.myappportfolio.fragment;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tcs.nanodegree.myappportfolio.activity.R;
+import com.tcs.nanodegree.myappportfolio.activity.TheMoviesScreen;
 import com.tcs.nanodegree.myappportfolio.adapter.GridAdapter;
 import com.tcs.nanodegree.myappportfolio.bean.Movie;
 import com.tcs.nanodegree.myappportfolio.bean.Result;
@@ -26,7 +32,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MoviesFragment extends Fragment {
-
 
     private RecyclerView mRecyclerView;
     private View view;
@@ -76,15 +81,13 @@ public class MoviesFragment extends Fragment {
 
         setUI(view);
 
-        if(savedInstanceState !=null)
-        {
+        if (savedInstanceState != null) {
             currentSelectedSort = savedInstanceState.getInt(getResources().getString(R.string.current_sort_option));
             movie = (Movie) savedInstanceState.get(getResources().getString(R.string.saved_movie_object));
             pageCount = savedInstanceState.getInt(getResources().getString(R.string.saved_page_count));
         }
 
-        if(movie!= null && movie.getResults() != null && movie.getResults().size() >0)
-        {
+        if (movie != null && movie.getResults() != null && movie.getResults().size() > 0) {
             mAdapter = new GridAdapter(getActivity(), movie.getResults());
             mRecyclerView.setAdapter(mAdapter);
             loading = true;
@@ -92,7 +95,7 @@ public class MoviesFragment extends Fragment {
             smallLoading.setVisibility(View.GONE);
             errorText.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             fetchMovies(currentSelectedSort);
         }
 
@@ -123,7 +126,7 @@ public class MoviesFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
             return true;
-        } else{
+        } else {
             getActivity().finish();
         }
         return super.onOptionsItemSelected(item);
@@ -143,7 +146,17 @@ public class MoviesFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_movies);
         mRecyclerView.setHasFixedSize(true);
 
+        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int rotation = display.getRotation();
+
         // The number of Columns
+
+        int orientation = getResources().getConfiguration().orientation;
+
+        /*if(orientation== Surface.ROTATION_0 || orientation == Surface.ROTATION_180)
+            mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        else
+            mLayoutManager = new GridLayoutManager(getActivity(), 3);*/
         mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -212,6 +225,13 @@ public class MoviesFragment extends Fragment {
                         movie = (Movie) o;
                         mAdapter = new GridAdapter(getActivity(), movie.getResults());
                         mRecyclerView.setAdapter(mAdapter);
+
+                        if (movie != null && getActivity() != null
+                                && getActivity() instanceof TheMoviesScreen) {
+                            TheMoviesScreen mainActivity = (TheMoviesScreen) getActivity();
+                            mainActivity.switchContent(movie.getResults().get(0));
+                        }
+
                     } else {
                         Movie nextMovieObj = (Movie) o;
                         List<Result> oldResult = movie.getResults();
@@ -254,4 +274,11 @@ public class MoviesFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        mLayoutManager.setSpanCount(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 3);
+
+    }
 }

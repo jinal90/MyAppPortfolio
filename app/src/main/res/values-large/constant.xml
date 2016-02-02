@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="TMDB_base_url">http://api.themoviedb.org/3</string>
-    <string name="TMDB_detail_image_url">http://image.tmdb.org/t/p/w342</string>
-    <string name="TMDB_thumbnail_url">http://image.tmdb.org/t/p/w185</string>
+    <string name="TMDB_image_url">http://image.tmdb.org/t/p/w342</string>
     <!-- kindly refer README for api key -->
     <!--<string name="TMDB_ApiKey">[YOUR API KEY]</string>-->
     <string name="TMDB_ApiKey">f05ba110dfeb0aa58bd21aa6fb39ebb4</string>
@@ -16,6 +15,6 @@
     <string name="saved_result_object">SavedResultObject</string>
     <string name="saved_review_object">SavedReviewObject</string>
     <string name="saved_trailer_object">SavedTrailerObject</string>
-    <string name="is_tablet">false</string>
+    <string name="is_tablet">true</string>
 
 </resources>
