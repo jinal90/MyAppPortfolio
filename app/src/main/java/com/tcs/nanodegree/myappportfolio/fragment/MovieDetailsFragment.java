@@ -18,12 +18,16 @@ import com.squareup.picasso.Picasso;
 import com.tcs.nanodegree.myappportfolio.activity.R;
 import com.tcs.nanodegree.myappportfolio.adapter.ReviewAdapter;
 import com.tcs.nanodegree.myappportfolio.adapter.TrailerAdapter;
+import com.tcs.nanodegree.myappportfolio.bean.Movie;
 import com.tcs.nanodegree.myappportfolio.bean.Result;
 import com.tcs.nanodegree.myappportfolio.bean.Review;
 import com.tcs.nanodegree.myappportfolio.bean.Trailer;
 import com.tcs.nanodegree.myappportfolio.intefaces.IApiMethods;
+import com.tcs.nanodegree.myappportfolio.util.Utility;
 import com.tcs.nanodegree.myappportfolio.util.WrappingLinearLayoutManager;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 import retrofit.Callback;
@@ -41,13 +45,15 @@ public class MovieDetailsFragment extends Fragment {
     private Result movieObj;
     private ImageView imgPoster;
     private ActionBar actionBar;
-    private TextView tvOverview, tvReleaseDate, tvLanguage;
+    private TextView tvOverview, tvReleaseDate, tvLanguage, tvTitle;
     private RatingBar movieRating;
     private Trailer movieTrailerObj;
     private Review movieReviewObj;
     private RecyclerView trailerRecyclerView, reviewRecyclerView;
     private TrailerAdapter trailerAdapter;
     private ReviewAdapter reviewAdapter;
+    private boolean isFav = false;
+    private Movie favMovies = null;
 
 
     public static MovieDetailsFragment newInstance(Result resultObj) {
@@ -84,6 +90,24 @@ public class MovieDetailsFragment extends Fragment {
             movieTrailerObj = (Trailer) savedInstanceState.get(getResources().getString(R.string.saved_trailer_object));
         }
 
+        if (movieReviewObj == null) {
+            String reviewJson = Utility.getSavedStringDataFromPref(
+                    getActivity()
+                    , getString(R.string.pref_review_object)
+                            + movieObj.getId());
+            if (Utility.notEmpty(reviewJson))
+                movieReviewObj = (Review) Utility.getObjFromJsonString(reviewJson, Review.class);
+        }
+
+        if (movieTrailerObj == null) {
+            String trailerJson = Utility.getSavedStringDataFromPref(
+                    getActivity()
+                    , getString(R.string.pref_trailer_object)
+                            + movieObj.getId());
+            if (Utility.notEmpty(trailerJson))
+                movieTrailerObj = (Trailer) Utility.getObjFromJsonString(trailerJson, Trailer.class);
+        }
+
         if (movieObj != null) {
             fillData();
         }
@@ -112,9 +136,14 @@ public class MovieDetailsFragment extends Fragment {
 
     private void setupUI(View view) {
 
+        tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        tvTitle.setText(movieObj.getTitle());
+
         imgPoster = (ImageView) view.findViewById(R.id.img_movie_poster);
         Picasso.with(getActivity())
                 .load(getResources().getString(R.string.TMDB_detail_image_url) + movieObj.getPosterPath())
+                .placeholder(getResources().getDrawable(R.drawable.movie_default))
+                .error(getResources().getDrawable(R.drawable.movie_default))
                 .into(imgPoster);
 
         tvOverview = (TextView) view.findViewById(R.id.txtOverview);
@@ -137,15 +166,77 @@ public class MovieDetailsFragment extends Fragment {
         reviewRecyclerView.setHasFixedSize(false);
         reviewRecyclerView.setLayoutManager(reviewLayoutManager);
 
-        final FloatingActionButton fabFavorite = (FloatingActionButton)view.findViewById(R.id.fabFavorite);
+        final FloatingActionButton fabFavorite = (FloatingActionButton) view.findViewById(R.id.fabFavorite);
+
+        checkAlreadyFavorite();
+
+        if (isFav)
+            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red));
+        else
+            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white));
+
         fabFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red));
-                Toast.makeText(getActivity(), "blah blah", Toast.LENGTH_SHORT).show();
+
+                if (isFav && favMovies != null) {
+
+                    isFav = false;
+                    fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white));
+
+                    for (Iterator<Result> it = favMovies.getResults().iterator(); it.hasNext(); ) {
+                        Result r = it.next();
+                        if (r.getId() == movieObj.getId()) {
+                            it.remove();
+                            break;
+                        }
+                    }
+
+                    Utility.deleteSavedStringDatafromPref(getActivity()
+                            , getString(R.string.pref_review_object)
+                            + movieObj.getId());
+                    Utility.deleteSavedStringDatafromPref(getActivity()
+                            , getString(R.string.pref_trailer_object)
+                            + movieObj.getId());
+
+                } else {
+
+                    isFav = true;
+                    fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red));
+
+                    Toast.makeText(getActivity()
+                            , movieObj.getTitle() + " " + getString(R.string.favorite_added)
+                            , Toast.LENGTH_SHORT).show();
+
+                    String reviewJson = Utility.getJsonStringFromObj(movieReviewObj);
+                    String trailerJson = Utility.getJsonStringFromObj(movieTrailerObj);
+
+                    if (favMovies == null || favMovies.getResults() == null) {
+                        favMovies = new Movie();
+                        ArrayList<Result> resultList = new ArrayList<Result>();
+                        favMovies.setResults(resultList);
+                    }
+
+                    favMovies.getResults().add(movieObj);
+
+                    Utility.saveStringDataInPref(getActivity()
+                            , getString(R.string.pref_review_object) + movieObj.getId()
+                            , reviewJson);
+
+                    Utility.saveStringDataInPref(getActivity()
+                            , getString(R.string.pref_trailer_object) + movieObj.getId()
+                            , trailerJson);
+
+                }
+
+                String favMoviesJson = Utility.getJsonStringFromObj(favMovies);
+
+                Utility.saveStringDataInPref(getActivity()
+                        , getString(R.string.pref_movie_object)
+                        , favMoviesJson);
+
             }
         });
-
     }
 
     public void fillData() {
@@ -239,4 +330,22 @@ public class MovieDetailsFragment extends Fragment {
         outState.putParcelable(getResources().getString(R.string.saved_review_object), movieReviewObj);
     }
 
+
+    public void checkAlreadyFavorite() {
+
+        String favMoviesJson = Utility.getSavedStringDataFromPref(
+                getActivity()
+                , getString(R.string.pref_movie_object));
+
+        if (Utility.notEmpty(favMoviesJson))
+            favMovies = (Movie) Utility.getObjFromJsonString(favMoviesJson, Movie.class);
+
+        if (favMovies != null && favMovies.getResults() != null)
+            for (Result r : favMovies.getResults()) {
+                if (r.getId() == movieObj.getId()) {
+                    isFav = true;
+                    break;
+                }
+            }
+    }
 }

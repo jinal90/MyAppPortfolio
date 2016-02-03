@@ -50,6 +50,13 @@
         <item name="android:padding">@dimen/textview_padding</item>
     </style>
 
+    <!-- Custom Textview Movie Title style -->
+    <style name="MyMovieTiteStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/title_text</item>
+        <item name="android:textSize">@dimen/textview_title_textsize</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <!-- Custom Textview Error style -->
     <style name="MyTextErrorStyle" parent="android:Widget.TextView">
         <item name="android:textColor">@android:color/holo_red_dark</item>

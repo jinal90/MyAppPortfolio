@@ -3,10 +3,19 @@ package com.tcs.nanodegree.myappportfolio.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.tcs.nanodegree.myappportfolio.bean.Movie;
+import com.tcs.nanodegree.myappportfolio.bean.Result;
+import com.tcs.nanodegree.myappportfolio.bean.Review;
+import com.tcs.nanodegree.myappportfolio.bean.Trailer;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jinal Tandel on 11/19/2015.
@@ -38,6 +47,12 @@ public class Utility {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getPackageName(), Context.MODE_PRIVATE);
         prefs.edit().putString(key, data).commit();
+    }
+
+    public static void deleteSavedStringDatafromPref(Context context, String key) {
+        SharedPreferences prefs = context.getSharedPreferences(
+                context.getPackageName(), Context.MODE_PRIVATE);
+        prefs.edit().remove(key).commit();
     }
 
     public static void saveIntDataInPref(Context context, String key, int data) {
@@ -91,5 +106,51 @@ public class Utility {
         prefs.edit().putFloat(key, data).commit();
     }
 
+
+    public static String getJsonStringFromObj(Object obj){
+
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(obj);
+
+        return jsonString;
+    }
+
+    public static Object getObjFromJsonString(String jsonString, Type T){
+
+        Object obj = new Object();
+        Gson gson = new Gson();
+
+        if(T == Review.class) {
+            obj = gson.fromJson(jsonString, Review.class);
+        }else if(T == Trailer.class) {
+            obj = gson.fromJson(jsonString, Trailer.class);
+        }else if(T == Movie.class) {
+            obj = gson.fromJson(jsonString, Movie.class);
+        }
+
+        return obj;
+    }
+
+    public static boolean notEmpty(Object obj) {
+        boolean result = true;
+        if (obj != null) {
+            if (obj instanceof String) {
+
+                if (obj.toString().trim().length() != 0
+                        && !obj.toString().trim().equalsIgnoreCase("null"))
+                    result = false;
+            } else if (obj instanceof List) {
+                if (((List) obj).size() > 0)
+                    result = false;
+            } else if (obj instanceof Map) {
+                if (((Map) obj).size() > 0)
+                    result = false;
+            }
+        }
+
+        return !result;
+
+    }
 
 }

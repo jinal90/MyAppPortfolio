@@ -8,6 +8,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
@@ -18,11 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tcs.nanodegree.myappportfolio.activity.R;
-import com.tcs.nanodegree.myappportfolio.activity.TheMoviesScreen;
 import com.tcs.nanodegree.myappportfolio.adapter.GridAdapter;
 import com.tcs.nanodegree.myappportfolio.bean.Movie;
 import com.tcs.nanodegree.myappportfolio.bean.Result;
 import com.tcs.nanodegree.myappportfolio.intefaces.IApiMethods;
+import com.tcs.nanodegree.myappportfolio.util.Utility;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class MoviesFragment extends Fragment {
     private GridLayoutManager mLayoutManager;
     private RestAdapter restAdapter;
     private ProgressBar progDialog, smallLoading;
-    private int sortByRating = 1, selectedSorting = 0;
+    private int sortByRating = 1, sortByPopularity = 0, selectedSorting = 0, favoriteMovies = 2;
     private boolean loading = true;
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
     private Integer pageCount = 1;
@@ -107,9 +109,9 @@ public class MoviesFragment extends Fragment {
 
         int id = item.getItemId();
         if (id == R.id.action_popular_sort) {
-            if (currentSelectedSort != 0) {
+            if (currentSelectedSort != sortByPopularity) {
                 setPageCount(1);
-                fetchMovies(0);
+                fetchMovies(sortByPopularity);
                 currentSelectedSort = 0;
             } else {
                 Toast.makeText(getActivity(), getResources().getString(R.string.popular_already_sorted),
@@ -117,12 +119,22 @@ public class MoviesFragment extends Fragment {
             }
             return true;
         } else if (id == R.id.action_rating_sort) {
-            if (currentSelectedSort != 1) {
+            if (currentSelectedSort != sortByRating) {
                 setPageCount(1);
-                fetchMovies(1);
-                currentSelectedSort = 1;
+                fetchMovies(sortByRating);
+                currentSelectedSort = sortByRating;
             } else {
                 Toast.makeText(getActivity(), getResources().getString(R.string.highest_rating_already_sorted),
+                        Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        } else if (id == R.id.action_favorite_movies) {
+            if (currentSelectedSort != favoriteMovies) {
+                setPageCount(1);
+                fetchMovies(favoriteMovies);
+                currentSelectedSort = favoriteMovies;
+            } else {
+                Toast.makeText(getActivity(), getResources().getString(R.string.favorite_already_sorted),
                         Toast.LENGTH_SHORT).show();
             }
             return true;
@@ -130,6 +142,13 @@ public class MoviesFragment extends Fragment {
             getActivity().finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_the_movies_screen, menu);
     }
 
     @Override
@@ -153,11 +172,11 @@ public class MoviesFragment extends Fragment {
 
         int orientation = getResources().getConfiguration().orientation;
 
-        /*if(orientation== Surface.ROTATION_0 || orientation == Surface.ROTATION_180)
-            mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        if(orientation== Surface.ROTATION_0 || orientation == Surface.ROTATION_180)
+            mLayoutManager = new GridLayoutManager(getActivity(), 3);
         else
-            mLayoutManager = new GridLayoutManager(getActivity(), 3);*/
-        mLayoutManager = new GridLayoutManager(getActivity(), 2);
+            mLayoutManager = new GridLayoutManager(getActivity(), 2);
+
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         progDialog = (ProgressBar) view.findViewById(R.id.loadingDialog);
@@ -204,69 +223,100 @@ public class MoviesFragment extends Fragment {
 
         try {
 
-            restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(getResources().getString(R.string.TMDB_base_url))
-                    .build();
-
-            methods = restAdapter.create(IApiMethods.class);
-
-            if (pageCount == 1) {
+            if (sortType == favoriteMovies) {
                 progDialog.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
-            } else {
-                smallLoading.setVisibility(View.VISIBLE);
-            }
+                String favMoviesJson = Utility.getSavedStringDataFromPref(
+                        getActivity()
+                        , getString(R.string.pref_movie_object));
+                if (Utility.notEmpty(favMoviesJson))
+                    movie = (Movie) Utility.getObjFromJsonString(favMoviesJson, Movie.class);
 
-            Callback callback = new Callback() {
-                @Override
-                public void success(Object o, Response response) {
-
-                    if (pageCount == 1) {
-                        movie = (Movie) o;
-                        mAdapter = new GridAdapter(getActivity(), movie.getResults());
-                        mRecyclerView.setAdapter(mAdapter);
-
-                        if (movie != null && getActivity() != null
-                                && getActivity() instanceof TheMoviesScreen) {
-                            TheMoviesScreen mainActivity = (TheMoviesScreen) getActivity();
-                            mainActivity.switchContent(movie.getResults().get(0));
-                        }
-
-                    } else {
-                        Movie nextMovieObj = (Movie) o;
-                        List<Result> oldResult = movie.getResults();
-                        oldResult.addAll(nextMovieObj.getResults());
-                        movie.setResults(oldResult);
-                        mAdapter.notifyDataSetChanged();
-                        loading = true;
-                    }
+                if (movie != null) {
+                    mAdapter = new GridAdapter(getActivity(), movie.getResults());
+                    mRecyclerView.setAdapter(mAdapter);
                     progDialog.setVisibility(View.GONE);
                     smallLoading.setVisibility(View.GONE);
                     errorText.setVisibility(View.GONE);
                     mRecyclerView.setVisibility(View.VISIBLE);
-                    pageCount++;
-
-                }
-
-                @Override
-                public void failure(RetrofitError retrofitError) {
+                } else {
                     progDialog.setVisibility(View.GONE);
                     smallLoading.setVisibility(View.GONE);
                     errorText.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
                 }
-            };
+                /*if (movie != null && getActivity() != null
+                        && getActivity() instanceof TheMoviesScreen) {
+                    TheMoviesScreen mainActivity = (TheMoviesScreen) getActivity();
+                    mainActivity.switchContent(movie.getResults().get(0));
+                }*/
 
-            if (sortType == sortByRating) {
-                methods.getMovie(getResources().getString(R.string.TMDB_ApiKey),
-                        pageCount.toString(),
-                        getResources().getString(R.string.sort_by_rating),
-                        callback);
+
             } else {
-                methods.getMovie(getResources().getString(R.string.TMDB_ApiKey),
-                        pageCount.toString(),
-                        getResources().getString(R.string.sort_by_popularity),
-                        callback);
+                restAdapter = new RestAdapter.Builder()
+                        .setEndpoint(getResources().getString(R.string.TMDB_base_url))
+                        .build();
+
+                methods = restAdapter.create(IApiMethods.class);
+
+                if (pageCount == 1) {
+                    progDialog.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                } else {
+                    smallLoading.setVisibility(View.VISIBLE);
+                }
+
+                Callback callback = new Callback() {
+                    @Override
+                    public void success(Object o, Response response) {
+
+                        if (pageCount == 1) {
+                            movie = (Movie) o;
+                            mAdapter = new GridAdapter(getActivity(), movie.getResults());
+                            mRecyclerView.setAdapter(mAdapter);
+
+                            /*if (movie != null && getActivity() != null
+                                    && getActivity() instanceof TheMoviesScreen) {
+                                TheMoviesScreen mainActivity = (TheMoviesScreen) getActivity();
+                                mainActivity.switchContent(movie.getResults().get(0));
+                            }*/
+
+                        } else {
+                            Movie nextMovieObj = (Movie) o;
+                            List<Result> oldResult = movie.getResults();
+                            oldResult.addAll(nextMovieObj.getResults());
+                            movie.setResults(oldResult);
+                            mAdapter.notifyDataSetChanged();
+                            loading = true;
+                        }
+                        progDialog.setVisibility(View.GONE);
+                        smallLoading.setVisibility(View.GONE);
+                        errorText.setVisibility(View.GONE);
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        pageCount++;
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
+                        progDialog.setVisibility(View.GONE);
+                        smallLoading.setVisibility(View.GONE);
+                        errorText.setVisibility(View.VISIBLE);
+                        mRecyclerView.setVisibility(View.GONE);
+                    }
+                };
+
+                if (sortType == sortByRating) {
+                    methods.getMovie(getResources().getString(R.string.TMDB_ApiKey),
+                            pageCount.toString(),
+                            getResources().getString(R.string.sort_by_rating),
+                            callback);
+                } else {
+                    methods.getMovie(getResources().getString(R.string.TMDB_ApiKey),
+                            pageCount.toString(),
+                            getResources().getString(R.string.sort_by_popularity),
+                            callback);
+                }
             }
 
         } catch (Exception e) {

@@ -19,7 +19,7 @@ public class Result implements Parcelable{
     private String overview;
     private String release_date;
     private List<Long> genre_ids = new ArrayList<Long>();
-    private Long id;
+    private long id;
     private String original_title;
     private String original_language;
     private String title;
@@ -145,14 +145,14 @@ public class Result implements Parcelable{
     /**
      * @return The id
      */
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
     /**
      * @param id The id
      */
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

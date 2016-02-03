@@ -55,12 +55,12 @@ public class TheMoviesScreen extends AppCompatActivity{
         }*/
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_the_movies_screen, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -91,20 +91,6 @@ public class TheMoviesScreen extends AppCompatActivity{
 
         }
 
-
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        System.out.println("sdhfishfksdhfkjh");
-
-//        if("true".equalsIgnoreCase(getString(R.string.is_tablet))){
-//            mLayoutManager.setSpanCount(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 2);
-//        }else{
-//            mLayoutManager.setSpanCount(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 3);
-//        }
 
     }
 
