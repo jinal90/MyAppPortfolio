@@ -235,6 +235,7 @@ public class MoviesFragment extends Fragment {
                 if (movie != null) {
                     mAdapter = new GridAdapter(getActivity(), movie.getResults());
                     mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
                     progDialog.setVisibility(View.GONE);
                     smallLoading.setVisibility(View.GONE);
                     errorText.setVisibility(View.GONE);
@@ -274,6 +275,7 @@ public class MoviesFragment extends Fragment {
                             movie = (Movie) o;
                             mAdapter = new GridAdapter(getActivity(), movie.getResults());
                             mRecyclerView.setAdapter(mAdapter);
+                            mAdapter.notifyDataSetChanged();
 
                             /*if (movie != null && getActivity() != null
                                     && getActivity() instanceof TheMoviesScreen) {

@@ -12,7 +12,8 @@
     <RelativeLayout
         android:id="@+id/rlTitleArea"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/primary_dark_trans">
 
         <TextView
             android:id="@+id/tvTitle"
@@ -20,19 +21,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="45dp"
-            android:background="@color/primary_dark_trans"
-            android:paddingBottom="45dp"
-            android:paddingTop="35dp"
+            android:paddingBottom="85dp"
+            android:paddingTop="15dp"
             android:text="Movie Title" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@+id/tvTitle"
             android:src="@drawable/ic_favorite_white" />
 
     </RelativeLayout>
