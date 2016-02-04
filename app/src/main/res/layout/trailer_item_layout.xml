@@ -20,9 +20,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:contentDescription="@string/play_trailer"
             android:onClick="onClick"
             android:layout_centerVertical="true"
-            android:src="@drawable/play_icon" />
+            android:src="@drawable/ic_play" />
 
         <TextView
             android:id="@+id/tvTrailerTitle"

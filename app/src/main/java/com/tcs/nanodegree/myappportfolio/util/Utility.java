@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.tcs.nanodegree.myappportfolio.bean.Movie;
-import com.tcs.nanodegree.myappportfolio.bean.Result;
 import com.tcs.nanodegree.myappportfolio.bean.Review;
 import com.tcs.nanodegree.myappportfolio.bean.Trailer;
 
@@ -46,26 +45,26 @@ public class Utility {
                                             String data) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().putString(key, data).commit();
+        prefs.edit().putString(key, data).apply();
     }
 
     public static void deleteSavedStringDatafromPref(Context context, String key) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().remove(key).commit();
+        prefs.edit().remove(key).apply();
     }
 
     public static void saveIntDataInPref(Context context, String key, int data) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().putInt(key, data).commit();
+        prefs.edit().putInt(key, data).apply();
     }
 
     public static void saveBooleanDataInPref(Context context, String key,
                                              boolean data) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().putBoolean(key, data).commit();
+        prefs.edit().putBoolean(key, data).apply();
     }
 
     public static String getSavedStringDataFromPref(Context context, String key) {
@@ -103,29 +102,27 @@ public class Utility {
                                            float data) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().putFloat(key, data).commit();
+        prefs.edit().putFloat(key, data).apply();
     }
 
 
-    public static String getJsonStringFromObj(Object obj){
+    public static String getJsonStringFromObj(Object obj) {
 
 
         Gson gson = new Gson();
-        String jsonString = gson.toJson(obj);
-
-        return jsonString;
+        return gson.toJson(obj);
     }
 
-    public static Object getObjFromJsonString(String jsonString, Type T){
+    public static Object getObjFromJsonString(String jsonString, Type T) {
 
         Object obj = new Object();
         Gson gson = new Gson();
 
-        if(T == Review.class) {
+        if (T == Review.class) {
             obj = gson.fromJson(jsonString, Review.class);
-        }else if(T == Trailer.class) {
+        } else if (T == Trailer.class) {
             obj = gson.fromJson(jsonString, Trailer.class);
-        }else if(T == Movie.class) {
+        } else if (T == Movie.class) {
             obj = gson.fromJson(jsonString, Movie.class);
         }
 

@@ -39,11 +39,10 @@ public class MoviesFragment extends Fragment {
     private View view;
     private GridAdapter mAdapter;
     private GridLayoutManager mLayoutManager;
-    private RestAdapter restAdapter;
     private ProgressBar progDialog, smallLoading;
     private int sortByRating = 1, sortByPopularity = 0, selectedSorting = 0, favoriteMovies = 2;
     private boolean loading = true;
-    private int pastVisiblesItems, visibleItemCount, totalItemCount;
+    private int pastVisiblesItems, visibleItemCount;
     private Integer pageCount = 1;
     private Movie movie;
     private TextView errorText;
@@ -172,7 +171,7 @@ public class MoviesFragment extends Fragment {
 
         int orientation = getResources().getConfiguration().orientation;
 
-        if(orientation== Surface.ROTATION_0 || orientation == Surface.ROTATION_180)
+        if (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180)
             mLayoutManager = new GridLayoutManager(getActivity(), 3);
         else
             mLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -198,7 +197,6 @@ public class MoviesFragment extends Fragment {
                 if (dy > 0) //check for scroll down
                 {
                     visibleItemCount = mLayoutManager.getChildCount();
-                    totalItemCount = mLayoutManager.getItemCount();
                     pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 
                     if (loading) {
@@ -246,15 +244,9 @@ public class MoviesFragment extends Fragment {
                     errorText.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
                 }
-                /*if (movie != null && getActivity() != null
-                        && getActivity() instanceof TheMoviesScreen) {
-                    TheMoviesScreen mainActivity = (TheMoviesScreen) getActivity();
-                    mainActivity.switchContent(movie.getResults().get(0));
-                }*/
-
 
             } else {
-                restAdapter = new RestAdapter.Builder()
+                RestAdapter restAdapter = new RestAdapter.Builder()
                         .setEndpoint(getResources().getString(R.string.TMDB_base_url))
                         .build();
 
@@ -276,12 +268,6 @@ public class MoviesFragment extends Fragment {
                             mAdapter = new GridAdapter(getActivity(), movie.getResults());
                             mRecyclerView.setAdapter(mAdapter);
                             mAdapter.notifyDataSetChanged();
-
-                            /*if (movie != null && getActivity() != null
-                                    && getActivity() instanceof TheMoviesScreen) {
-                                TheMoviesScreen mainActivity = (TheMoviesScreen) getActivity();
-                                mainActivity.switchContent(movie.getResults().get(0));
-                            }*/
 
                         } else {
                             Movie nextMovieObj = (Movie) o;

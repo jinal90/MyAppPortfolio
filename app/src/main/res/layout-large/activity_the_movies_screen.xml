@@ -13,13 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:baselineAligned="false"
         android:weightSum="2">
 
         <RelativeLayout
             android:id="@+id/movieContainerLeft"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
             android:layout_weight="1">
 
         </RelativeLayout>
@@ -28,7 +28,6 @@
             android:id="@+id/movieContainerRight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
             android:layout_weight="1">
 
             <TextView
@@ -36,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Select Movie to View its Details." />
+                android:text="@string/select_movie_detail" />
         </RelativeLayout>
 
     </LinearLayout>

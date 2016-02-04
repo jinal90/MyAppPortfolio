@@ -1,15 +1,11 @@
 package com.tcs.nanodegree.myappportfolio.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.tcs.nanodegree.myappportfolio.activity.R;
 
 public class ReviewActivity extends AppCompatActivity {
 
@@ -22,14 +18,14 @@ public class ReviewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(getIntent()!=null && getIntent().hasExtra("name"))
-            movieName  = getIntent().getExtras().getString("name");
+        if (getIntent() != null && getIntent().hasExtra(getString(R.string.key_name)))
+            movieName = getIntent().getExtras().getString(getString(R.string.key_name));
 
-        if(getIntent()!=null && getIntent().hasExtra("author"))
-            reviewAuthor  = getIntent().getExtras().getString("author");
+        if (getIntent() != null && getIntent().hasExtra(getString(R.string.key_author)))
+            reviewAuthor = getIntent().getExtras().getString(getString(R.string.key_author));
 
-        if(getIntent()!=null && getIntent().hasExtra("content"))
-            reviewContent  = getIntent().getExtras().getString("content");
+        if (getIntent() != null && getIntent().hasExtra(getString(R.string.key_content)))
+            reviewContent = getIntent().getExtras().getString(getString(R.string.key_content));
 
 
         ActionBar actionBar = getSupportActionBar();
@@ -44,4 +40,12 @@ public class ReviewActivity extends AppCompatActivity {
         tvReview.setText(reviewContent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

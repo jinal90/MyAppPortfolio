@@ -1,11 +1,8 @@
 package com.tcs.nanodegree.myappportfolio.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -14,10 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.tcs.nanodegree.myappportfolio.activity.MovieFullScreenActivity;
 import com.tcs.nanodegree.myappportfolio.activity.R;
-import com.tcs.nanodegree.myappportfolio.bean.Result;
 import com.tcs.nanodegree.myappportfolio.bean.TrailerResult;
 
 import java.util.List;
@@ -29,7 +23,6 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
     private List<TrailerResult> mItems;
     private Context context;
-    private DisplayMetrics metrix;
 
     public TrailerAdapter(Context context, List<TrailerResult> trailerList) {
         super();
@@ -50,10 +43,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
         viewHolder.tvTrailerTitle.setText(trailerObj.getName());
 
-        viewHolder.ivPlay.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "http://www.youtube.com/watch?v=" + trailerObj.getKey();
+                String url = context.getString(R.string.youtube_base_url) + trailerObj.getKey();
                 context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             }
         });
@@ -66,7 +59,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
         return mItems.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvTrailerTitle;
         public ImageView ivPlay;

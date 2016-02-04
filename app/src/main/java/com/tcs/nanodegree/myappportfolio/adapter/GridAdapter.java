@@ -22,7 +22,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     private List<Result> mItems;
     private Context context;
-    private DisplayMetrics metrix;
 
     public GridAdapter(Context context, List<Result> movieList) {
         super();
@@ -40,6 +39,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         Result movieObj = mItems.get(i);
+
         Picasso.with(context)
                 .load(context.getResources().getString(R.string.TMDB_thumbnail_url) + movieObj.getPosterPath())
                 .placeholder(context.getResources().getDrawable(R.drawable.movie_default))
@@ -68,17 +68,6 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
             if (mItems != null && mItems.size() > this.getAdapterPosition())
                 fragmentJump(mItems.get(this.getAdapterPosition()));
-
-            /*Intent detailIntent = new Intent(context, MovieFullScreenActivity.class);
-
-            detailIntent.putExtra(context.getResources().getString(R.string.movie_obj), mItems.get(this.getAdapterPosition()));
-            if (Build.VERSION.SDK_INT >= 21) {
-                v.setTransitionName(context.getResources().getString(R.string.movie_poster_transition));
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, v, context.getResources().getString(R.string.movie_poster_transition));
-                context.startActivity(detailIntent, options.toBundle());
-            } else {
-                context.startActivity(detailIntent);
-            }*/
         }
     }
 

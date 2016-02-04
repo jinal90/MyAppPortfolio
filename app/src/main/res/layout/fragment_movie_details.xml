@@ -1,46 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlTitleArea"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:background="@android:color/background_light">
 
-    <RelativeLayout
-        android:id="@+id/rlTitleArea"
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/MyMovieTiteStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_dark_trans">
-
-        <TextView
-            android:id="@+id/tvTitle"
-            style="@style/MyMovieTiteStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:paddingBottom="85dp"
-            android:paddingTop="15dp"
-            android:text="Movie Title" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignBaseline="@+id/tvTitle"
-            android:src="@drawable/ic_favorite_white" />
-
-    </RelativeLayout>
+        android:layout_alignParentLeft="true"
+        android:background="@color/primary_dark_trans"
+        android:padding="15dp" />
 
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tvTitle"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -151,4 +132,13 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_favorite_white" />
+
+</RelativeLayout>

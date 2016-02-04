@@ -28,29 +28,21 @@ public class MainActivity extends AppCompatActivity {
         ActionBar myActionBar = getSupportActionBar();
         myActionBar.setTitle(getString(R.string.app_name));
 
-        //TextView title = (TextView) findViewById(R.id.feed_detail_title);
         TextView date = (TextView) findViewById(R.id.tvTitle);
         ViewCompat.setTransitionName(date, "Title");
-        //ViewCompat.setTransitionName(date, getString(R.string.transition_date));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
             Toast.makeText(this, getString(R.string.settings_menu_click), Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -60,15 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view) {
 
-        String message = "Button is clicked!";
+        String message = getString(R.string.button_clicked);
 
         switch (view.getId()) {
             case R.id.btnPopularMovies1:
                 message = getString(R.string.this_button_click) + " "
                         + getString(R.string.popular_moview_1) + " app!";
-                Intent i = new Intent(this, TheMoviesScreen.class);
-                startActivity(i);
-
+                startActivity(new Intent(this, TheMoviesScreen.class));
                 break;
 
             case R.id.btnSpotifyApp:

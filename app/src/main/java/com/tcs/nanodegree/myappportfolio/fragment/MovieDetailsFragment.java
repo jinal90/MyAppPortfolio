@@ -4,7 +4,6 @@ package com.tcs.nanodegree.myappportfolio.fragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,22 +35,18 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MovieDetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MovieDetailsFragment extends Fragment {
+
+public class MovieDetailsFragment extends Fragment implements View.OnClickListener {
 
     private Result movieObj;
     private ImageView imgPoster;
-    private ActionBar actionBar;
     private TextView tvOverview, tvReleaseDate, tvLanguage, tvTitle;
     private RatingBar movieRating;
     private Trailer movieTrailerObj;
     private Review movieReviewObj;
     private RecyclerView trailerRecyclerView, reviewRecyclerView;
     private TrailerAdapter trailerAdapter;
+    private FloatingActionButton fabFavorite;
     private ReviewAdapter reviewAdapter;
     private boolean isFav = false;
     private Movie favMovies = null;
@@ -168,78 +163,18 @@ public class MovieDetailsFragment extends Fragment {
         reviewRecyclerView.setHasFixedSize(false);
         reviewRecyclerView.setLayoutManager(reviewLayoutManager);
 
-        final FloatingActionButton fabFavorite = (FloatingActionButton) view.findViewById(R.id.fabFavorite);
+        fabFavorite = (FloatingActionButton) view.findViewById(R.id.fabFavorite);
 
         checkAlreadyFavorite();
 
         if (isFav)
-            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red));
+            fabFavorite.setImageResource(R.drawable.ic_favorite_red);
         else
-            fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white));
+            fabFavorite.setImageResource(R.drawable.ic_favorite_white);
 
-        fabFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (isFav && favMovies != null) {
-
-                    isFav = false;
-                    fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white));
-
-                    for (Iterator<Result> it = favMovies.getResults().iterator(); it.hasNext(); ) {
-                        Result r = it.next();
-                        if (r.getId() == movieObj.getId()) {
-                            it.remove();
-                            break;
-                        }
-                    }
-
-                    Utility.deleteSavedStringDatafromPref(getActivity()
-                            , getString(R.string.pref_review_object)
-                            + movieObj.getId());
-                    Utility.deleteSavedStringDatafromPref(getActivity()
-                            , getString(R.string.pref_trailer_object)
-                            + movieObj.getId());
-
-                } else {
-
-                    isFav = true;
-                    fabFavorite.setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_red));
-
-                    Toast.makeText(getActivity()
-                            , movieObj.getTitle() + " " + getString(R.string.favorite_added)
-                            , Toast.LENGTH_SHORT).show();
-
-                    String reviewJson = Utility.getJsonStringFromObj(movieReviewObj);
-                    String trailerJson = Utility.getJsonStringFromObj(movieTrailerObj);
-
-                    if (favMovies == null || favMovies.getResults() == null) {
-                        favMovies = new Movie();
-                        ArrayList<Result> resultList = new ArrayList<Result>();
-                        favMovies.setResults(resultList);
-                    }
-
-                    favMovies.getResults().add(movieObj);
-
-                    Utility.saveStringDataInPref(getActivity()
-                            , getString(R.string.pref_review_object) + movieObj.getId()
-                            , reviewJson);
-
-                    Utility.saveStringDataInPref(getActivity()
-                            , getString(R.string.pref_trailer_object) + movieObj.getId()
-                            , trailerJson);
-
-                }
-
-                String favMoviesJson = Utility.getJsonStringFromObj(favMovies);
-
-                Utility.saveStringDataInPref(getActivity()
-                        , getString(R.string.pref_movie_object)
-                        , favMoviesJson);
-
-            }
-        });
+        fabFavorite.setOnClickListener(this);
     }
+
 
     public void fillData() {
         float rating = (float) ((5 * movieObj.getVoteAverage()) / 10);
@@ -357,9 +292,68 @@ public class MovieDetailsFragment extends Fragment {
 
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            //getActivity().finish();
             getActivity().onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (isFav && favMovies != null) {
+
+            isFav = false;
+            fabFavorite.setImageResource(R.drawable.ic_favorite_white);
+
+            for (Iterator<Result> it = favMovies.getResults().iterator(); it.hasNext(); ) {
+                Result r = it.next();
+                if (r.getId() == movieObj.getId()) {
+                    it.remove();
+                    break;
+                }
+            }
+
+            Utility.deleteSavedStringDatafromPref(getActivity()
+                    , getString(R.string.pref_review_object)
+                    + movieObj.getId());
+            Utility.deleteSavedStringDatafromPref(getActivity()
+                    , getString(R.string.pref_trailer_object)
+                    + movieObj.getId());
+
+        } else {
+
+            isFav = true;
+            fabFavorite.setImageResource(R.drawable.ic_favorite_red);
+
+            Toast.makeText(getActivity()
+                    , movieObj.getTitle() + " " + getString(R.string.favorite_added)
+                    , Toast.LENGTH_SHORT).show();
+
+            String reviewJson = Utility.getJsonStringFromObj(movieReviewObj);
+            String trailerJson = Utility.getJsonStringFromObj(movieTrailerObj);
+
+            if (favMovies == null || favMovies.getResults() == null) {
+                favMovies = new Movie();
+                ArrayList<Result> resultList = new ArrayList<Result>();
+                favMovies.setResults(resultList);
+            }
+
+            favMovies.getResults().add(movieObj);
+
+            Utility.saveStringDataInPref(getActivity()
+                    , getString(R.string.pref_review_object) + movieObj.getId()
+                    , reviewJson);
+
+            Utility.saveStringDataInPref(getActivity()
+                    , getString(R.string.pref_trailer_object) + movieObj.getId()
+                    , trailerJson);
+
+        }
+
+        String favMoviesJson = Utility.getJsonStringFromObj(favMovies);
+
+        Utility.saveStringDataInPref(getActivity()
+                , getString(R.string.pref_movie_object)
+                , favMoviesJson);
+
     }
 }

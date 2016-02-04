@@ -5,7 +5,6 @@
     <string name="my_nanodegree_app">My Nanodegree App!</string>
 
     <string name="popular_moview_1">Popular Movies: Stage1</string>
-    <string name="popular_moview_2">Popular Movies: Stage2</string>
     <string name="spotify_streamer">Spotify Streamer</string>
     <string name="scores_app">Scores App</string>
     <string name="library_app">Library App</string>
@@ -13,14 +12,13 @@
     <string name="xyz_reader">XYZ Reader</string>
     <string name="capstone_my_app">Capstone: My Own App</string>
 
+    <string name="button_clicked">This button is clicked.</string>
     <string name="this_button_click">This button click will open my</string>
     <string name="settings_menu_click">This is settings menu.</string>
     <string name="title_activity_the_movies_screen">TheMoviesScreen</string>
     <string name="movie_obj">MovieObj</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_movie_full_screen">MovieFullScreenActivity</string>
-
     <string name="title_release_date">Release Date:</string>
     <string name="title_language">Language:</string>
     <string name="sort_popular">sort by Popularity</string>
@@ -38,4 +36,6 @@
     <string name="title_activity_review">ReviewActivity</string>
 
     <string name="favorite_added">movie added to favorites.</string>
+    <string name="select_movie_detail">Select Movie to View its Details.</string>
+    <string name="play_trailer">Play Trailer</string>
 </resources>

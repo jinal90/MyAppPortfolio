@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="TMDB_base_url">http://api.themoviedb.org/3</string>
-    <string name="TMDB_detail_image_url">http://image.tmdb.org/t/p/w342</string>
+    <string name="TMDB_detail_image_url">http://image.tmdb.org/t/p/w500</string>
     <string name="TMDB_thumbnail_url">http://image.tmdb.org/t/p/w342</string>
     <!-- kindly refer README for api key -->
-    <!--<string name="TMDB_ApiKey">[YOUR API KEY]</string>-->
-    <string name="TMDB_ApiKey">f05ba110dfeb0aa58bd21aa6fb39ebb4</string>
+    <string name="TMDB_ApiKey">[YOUR API KEY]</string>
     <string name="sort_by_popularity">popularity.desc</string>
     <string name="sort_by_rating">vote_average.desc</string>
     <string name="movie_poster_transition">moviePosterTransition</string>
@@ -21,5 +20,11 @@
     <string name="pref_movie_object">PrefMovieObject_</string>
     <string name="pref_review_object">PrefReviewObject_</string>
     <string name="pref_trailer_object">PrefTrailerObject_</string>
+
+    <string name="key_name">review_name</string>
+    <string name="key_author">review_author</string>
+    <string name="key_content">review_content</string>
+
+    <string name="youtube_base_url">http://www.youtube.com/watch?v=</string>
 
 </resources>

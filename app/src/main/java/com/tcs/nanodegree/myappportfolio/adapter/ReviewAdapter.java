@@ -27,7 +27,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     private List<ReviewResult> mItems;
     private Context context;
-    private DisplayMetrics metrix;
     private String movieName;
 
     public ReviewAdapter(Context context, List<ReviewResult> reviewList, String name) {
@@ -55,9 +54,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 Intent reviewIntent = new Intent(context, ReviewActivity.class);
-                reviewIntent.putExtra("name", movieName);
-                reviewIntent.putExtra("author", reviewObj.getAuthor());
-                reviewIntent.putExtra("content", reviewObj.getContent());
+                reviewIntent.putExtra(context.getString(R.string.key_name), movieName);
+                reviewIntent.putExtra(context.getString(R.string.key_author), reviewObj.getAuthor());
+                reviewIntent.putExtra(context.getString(R.string.key_content), reviewObj.getContent());
                 context.startActivity(reviewIntent);
             }
         });
