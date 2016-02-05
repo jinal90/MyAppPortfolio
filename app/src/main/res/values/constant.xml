@@ -17,7 +17,7 @@
     <string name="saved_trailer_object">SavedTrailerObject</string>
     <string name="is_tablet">false</string>
 
-    <string name="pref_movie_object">PrefMovieObject_</string>
+    <string name="pref_movie_object">PrefMovieObject</string>
     <string name="pref_review_object">PrefReviewObject_</string>
     <string name="pref_trailer_object">PrefTrailerObject_</string>
 

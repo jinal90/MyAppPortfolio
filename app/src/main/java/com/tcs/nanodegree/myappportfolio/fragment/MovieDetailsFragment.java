@@ -333,6 +333,7 @@ public class MovieDetailsFragment extends Fragment implements View.OnClickListen
 
             if (favMovies == null || favMovies.getResults() == null) {
                 favMovies = new Movie();
+                favMovies.setPage(1l);
                 ArrayList<Result> resultList = new ArrayList<Result>();
                 favMovies.setResults(resultList);
             }
